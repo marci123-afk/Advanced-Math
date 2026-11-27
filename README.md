@@ -2,7 +2,7 @@
 
 **Course:** Advanced Mathematics (Vrije Universiteit Brussel)  
 **Author:** Marcell Mayer  
-**Live Website:** https://FELHASZNALONEVED.github.io/advanced-math-safe-haven/
+**Live Website:** https://marci123-afk.github.io/Advanced-Math/
 
 ## Research Question
 Does gold (`GLD`) provide statistically significant positive returns during extreme equity market downturns (`SPY`), and how stable is the linear relationship between the two assets over time?
