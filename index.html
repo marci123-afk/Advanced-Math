@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Does Gold Act as a True Safe Haven? | Advanced Math Project</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #475569;
+      --accent: #b45309;
+      --border: #e2e8f0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+    }
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: #ffffff;
+      padding: 3.5rem 1.5rem;
+      text-align: center;
+    }
+    header h1 {
+      max-width: 820px;
+      margin: 0 auto 0.75rem;
+      font-size: 2rem;
+      line-height: 1.25;
+    }
+    header p {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+    main {
+      max-width: 920px;
+      margin: -1.5rem auto 3rem;
+      padding: 0 1.25rem;
+    }
+    section {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+    }
+    h2 {
+      margin-top: 0;
+      color: #0f172a;
+      border-bottom: 2px solid #fef3c7;
+      padding-bottom: 0.4rem;
+      font-size: 1.35rem;
+    }
+    .highlight-box {
+      background: #fffbeb;
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.25rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    figure {
+      margin: 1.5rem 0 0.5rem;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    figcaption {
+      margin-top: 0.6rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .pdf-link {
+      display: inline-block;
+      margin-top: 0.4rem;
+      font-size: 0.88rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .pdf-link:hover { text-decoration: underline; }
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Does Gold Act as a True Safe Haven During S&amp;P 500 Drawdowns?</h1>
+  <p>Advanced Mathematics Project &bull; Vrije Universiteit Brussel (VUB) &bull; Marcell Mayer</p>
+</header>
+
+<main>
+  <section>
+    <h2>1. Research Question &amp; Data</h2>
+    <div class="highlight-box">
+      <strong>Research Question:</strong> Does gold (<code>GLD</code>) provide statistically significant positive returns during extreme equity market downturns (<code>SPY</code>), and how stable is the linear relationship between the two assets over time?
+    </div>
+    <p>
+      To test gold's role as a portfolio hedge and crisis safe haven, daily adjusted closing prices were collected from Yahoo Finance (<code>yfinance</code>) covering <strong>2,739 trading days</strong> between January 2016 and November 2026. Raw prices were transformed into continuously compounded daily log returns, <em>r<sub>t</sub> = ln(P<sub>t</sub> / P<sub>t&minus;1</sub>)</em>, to ensure stationarity and time-additivity.
+    </p>
+  </section>
+
+  <section>
+    <h2>2. Methodology &amp; Statistical Results</h2>
+    <p>
+      Two distinct quantitative methods were applied in Python (<code>scipy.stats</code>, <code>numpy</code>, <code>pandas</code>):
+    </p>
+    <ul>
+      <li><strong>Analysis 1 &mdash; Distribution Check &amp; Regime Hypothesis Testing:</strong> Jarque&ndash;Bera normality tests confirmed severe non-normality (fat tails) in both return series (<em>p</em> &lt; 0.0001). Trading days were then partitioned into <em>Market Stress Days</em> (the worst 5% of S&amp;P 500 returns, threshold &le; &minus;1.69%, <em>n</em> = 137) and <em>Normal Days</em> (<em>n</em> = 2,602). Both a two-sample Welch's <em>t</em>-test and a non-parametric Mann&ndash;Whitney <em>U</em> test were conducted to compare gold's performance across regimes.</li>
+      <li><strong>Analysis 2 &mdash; OLS Linear Regression &amp; Rolling Correlation:</strong> An Ordinary Least Squares (OLS) regression (<em>r<sub>GLD</sub> = &alpha; + &beta; r<sub>SPY</sub> + &varepsilon;</em>) was estimated over the full sample, complemented by a 60-trading-day rolling Pearson correlation to capture time-varying co-movement.</li>
+    </ul>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Metric / Statistical Test</th>
+          <th>Result</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Jarque&ndash;Bera Normality Test (SPY &amp; GLD)</td>
+          <td><em>p</em> &lt; 0.0001</td>
+          <td>Rejects normality; heavy-tailed return distributions</td>
+        </tr>
+        <tr>
+          <td>S&amp;P 500 Stress Threshold (Bottom 5%)</td>
+          <td>&minus;1.69% (<em>n</em> = 137)</td>
+          <td>Cutoff defining extreme equity drawdown days</td>
+        </tr>
+        <tr>
+          <td>GLD Mean Return: Stress vs. Normal Days</td>
+          <td>+0.0288% vs. +0.0427%</td>
+          <td>Capital preserved during crashes, no large spike</td>
+        </tr>
+        <tr>
+          <td>Welch's Two-Sample <em>t</em>-test</td>
+          <td><em>t</em> = &minus;0.1070, <em>p</em> = 0.9150</td>
+          <td>No statistically significant difference in mean return</td>
+        </tr>
+        <tr>
+          <td>Mann&ndash;Whitney <em>U</em> Test</td>
+          <td><em>U</em> = 172,663.5, <em>p</em> = 0.5368</td>
+          <td>Confirms robustness against extreme outliers</td>
+        </tr>
+        <tr>
+          <td>OLS Regression Slope (&beta;) &amp; Fit (<em>R</em><sup>2</sup>)</td>
+          <td>&beta; = 0.0893, <em>R</em><sup>2</sup> = 0.0091</td>
+          <td>Near-zero equity sensitivity (&lt;1% variance explained)</td>
+        </tr>
+        <tr>
+          <td>60-Day Rolling Pearson Correlation</td>
+          <td>Min: &minus;0.626 | Max: +0.804 | Mean: 0.045</td>
+          <td>Highly regime-dependent; shifts during liquidity shocks</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>3. Visualisations</h2>
+    <figure>
+      <img src="fig1_distributions.png" alt="Gold daily log-return distribution and boxplot by market regime" />
+      <figcaption>
+        <strong>Figure 1:</strong> Empirical daily log-return distribution of GLD vs. fitted normal curve (left) and GLD return dispersion across normal and equity stress regimes (right).<br />
+        <a class="pdf-link" href="fig1_distributions.pdf" target="_blank">Download High-Resolution Vector PDF (fig1_distributions.pdf)</a>
+      </figcaption>
+    </figure>
+
+    <figure>
+      <img src="fig2_regression_correlation.png" alt="OLS linear regression and 60-day rolling correlation between SPY and GLD" />
+      <figcaption>
+        <strong>Figure 2:</strong> Full-sample OLS regression of GLD on SPY daily log returns (top) and 60-trading-day rolling Pearson correlation (bottom).<br />
+        <a class="pdf-link" href="fig2_regression_correlation.pdf" target="_blank">Download High-Resolution Vector PDF (fig2_regression_correlation.pdf)</a>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section>
+    <h2>4. Economic Interpretation &amp; Conclusion</h2>
+    <p>
+      In financial econometrics (following Baur &amp; Lucey, 2010), an asset is a <em>hedge</em> if it is uncorrelated with stocks on average, and a <em>safe haven</em> if it is uncorrelated or negatively correlated specifically during market turmoil.
+    </p>
+    <p>
+      The empirical findings demonstrate that gold acts as a <strong>strong diversifier (weak hedge) and a weak safe haven</strong> for the S&amp;P 500. Over the 10-year horizon, gold's near-zero beta (&beta; = 0.0893, <em>R</em><sup>2</sup> = 0.0091) confirms that equity fluctuations explain virtually none of gold's daily variance. During the worst 5% of S&amp;P 500 trading days, gold neither surges dramatically nor suffers contagion losses (<em>p</em> = 0.9150), effectively preserving capital. However, the 60-day rolling correlation reveals substantial instability (&minus;0.626 to +0.804): during acute liquidity crunches (such as March 2020) or synchronized monetary tightening shocks, gold temporarily co-moves positively with equities before reverting to its neutral baseline.
+    </p>
+  </section>
+</main>
+
+<footer>
+  Source code, dataset, and vector PDF figures available in the public GitHub repository.
+</footer>
+
+</body>
+</html>
